@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+  <article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <h6 class="">Date: {{ dream.dream_date.strftime('%Y-%m-%d') }}</h6>
+      </div>
+      <h5 class="article-metadata  pb-3 pt-3 mb-3">{{ dream.title }}</h5>
+      <div class="article-footer pb-1 mb-1">
+        <span class="h5">Symbols: </span>
+        {% for symbol,desc in symbols.items() %}
+
+        <div class="m-2">
+          <span class="font-weight-bold">{{ symbol }}:</span> <span class="font-weight-light">{{desc}}</span>
+        </div>
+        {% else %}
+        <mark class="badge mr-1 p-1">No Symbols Found</mark>
+        {% endfor %}
+      </div>
+    </div>
+  </article>
+{% endblock content %}
