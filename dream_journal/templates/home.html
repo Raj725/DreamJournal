@@ -44,7 +44,7 @@
     var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: false,
         title: {
-            text: "You Dreams Log Record Since- 2019-07-01"
+            text: "You Dreams Log Record Since- {{start_date.strftime('%Y-%m-%d')}}"
         },
         data: [{
             type: "pie",

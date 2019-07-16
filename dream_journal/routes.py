@@ -4,7 +4,8 @@ from dream_journal import app, db
 from dream_journal.forms import DreamForm
 from dream_journal.models import Dreams
 from dream_journal.symbol import symbol_dictionary
-
+from datetime import date
+import datetime
 
 def get_symbols(dream_title):
     symbols = {}
@@ -22,12 +23,23 @@ def get_symbols(dream_title):
 #     return dreams
 
 
+def get_dream_record_history(dreams):
+    list_of_dates = [dream.dream_date for dream in dreams]
+    dream_record_days = len(set(list_of_dates))
+    start_date = min(list_of_dates)
+    today = datetime.datetime.now()
+    total_days = (start_date - today).days
+    return start_date,dream_record_days,total_days
+
+
 @app.route("/")
 @app.route("/home")
 def home():
     dreams = Dreams.query.order_by(Dreams.dream_date.desc()).all()
     # dreams = set_dream_symbols(dreams)
-    return render_template('home.html', dreams=dreams, get_symbols=get_symbols, dream_recorded=10, dream_not_recorded=5)
+    start_date,dream_recorded,dream_not_recorded = get_dream_record_history(dreams)
+    return render_template('home.html', dreams=dreams, start_date=start_date, get_symbols=get_symbols,
+                           dream_recorded=dream_recorded, dream_not_recorded=dream_not_recorded)
 
 
 @app.route("/about")
